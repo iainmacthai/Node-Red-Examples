@@ -1,0 +1,953 @@
+[
+    {
+        "id": "23ccb6b6d98c0183",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "14f3cdd2.8266b2",
+        "type": "function",
+        "z": "23ccb6b6d98c0183",
+        "name": "Example",
+        "func": "\n//0310 53 23 2928 001 26 1244 220023 WNGN27S01003000000000003\n\nlet m = msg.payload\n\nlet name = m.substr(0,4)\n\nlet lat = m.substr(4,2)\nlet ma = m.substr(6,2)\nlet sa = m.substr(8,4)\n\nlet lon = m.substr(12,3)\nlet mo = m.substr(15,2)\nlet so = m.substr(17,4)\n\nlet hr = m.substr(21,2)\nlet mn = m.substr(23,2)\nlet se = m.substr(25,2)\n\nlet e = (m.substr(27,1) === \"E\") ? 1 : -1\nlet n = (m.substr(28,1) === \"N\") ? 1 : -1\n\nlat = (lat*1 + ma/60 + sa/360000) * n\nlon = (lon*1 + mo/60 + so/360000) * e\n\nlet icon = \"bus\";\n\nlet time = hr+\":\"+mn+\":\"+se\n\nreturn {payload:{name:name,lat:lat,lon:lon,time:time,icon:icon}}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 100,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9b86ca4b9da6618a",
+        "type": "function",
+        "z": "23ccb6b6d98c0183",
+        "name": "Split 80 Char Smartrack String",
+        "func": "\n//   8 Feb 202211:56:33-4211 8.2000001-0.130.000.000.00 0.00 37074-0.33  3 -125700\n\nlet m = msg.payload\n\nlet day = m.substr(2,2)\nlet month = m.substr(5,3)\nlet year = m.substr(9,4)\nlet hour = m.substr(13,2)\nlet minutes = m.substr(16,2)\nlet seconds = m.substr(19,2)\n\nlet relativeheading = m.substr(21,3)\nlet mode = m.substr(24,1)\nlet solution = m.substr(25,2)\nlet signalstrength = m.substr(26,4)\n\nlet videooverlayhorizontal = m.substr(30,3)\nlet videooverlaydepth = m.substr(33,2)\n\nlet sourcetype = m.substr(35,1)\n\nlet horizontaldisplacement = m.substr(36,5)\nlet horizontalerror = m.substr(41,4)\nlet verticaldisplacement = m.substr(45,4)\nlet verticalerror = m.substr(49,4)\n\n\nlet burial = m.substr(53,5)        // or skids to top\nlet magnetization = m.substr(58,6) // or in active mode current flow\nlet altitude = m.substr(64,5)\nlet pitch = m.substr(69,3)\nlet roll = m.substr(72,3)\nlet absoluteheading = m.substr(75,3)\n\nlet timesplit = m.substr(78,2)\n\nreturn {payload:{day,month,year,hour,minutes,seconds,relativeheading,mode,solution,signalstrength,videooverlayhorizontal,videooverlaydepth,sourcetype,horizontaldisplacement,horizontalerror,verticaldisplacement,verticalerror,burial,magnetization,altitude,pitch,roll,absoluteheading,timesplit\n}}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 190,
+        "y": 520,
+        "wires": [
+            [
+                "fd9319e8b3664076",
+                "8252bc90de6089a9",
+                "7edcdcc612832ea7",
+                "58a5257b844763c4",
+                "52e210406bb5b90c",
+                "4be5bdcf4bd00e93",
+                "594a1b39b40a8621",
+                "5c5373c5064c6039",
+                "18755496d82626b7",
+                "5ee96f4dc9c7b770",
+                "bc138537f0a8b09f"
+            ]
+        ]
+    },
+    {
+        "id": "bde88d21a475a54c",
+        "type": "serial in",
+        "z": "23ccb6b6d98c0183",
+        "name": "",
+        "serial": "6b0603793588c2f6",
+        "x": 90,
+        "y": 100,
+        "wires": [
+            [
+                "9b86ca4b9da6618a"
+            ]
+        ]
+    },
+    {
+        "id": "fd9319e8b3664076",
+        "type": "template",
+        "z": "23ccb6b6d98c0183",
+        "name": "Date",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "Date: {{payload.day}} {{payload.month}} {{payload.year}}\n",
+        "output": "str",
+        "x": 450,
+        "y": 100,
+        "wires": [
+            [
+                "6ca3945457b6fe67"
+            ]
+        ]
+    },
+    {
+        "id": "8252bc90de6089a9",
+        "type": "template",
+        "z": "23ccb6b6d98c0183",
+        "name": "Source Type",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload.sourcetype}} \n",
+        "output": "str",
+        "x": 470,
+        "y": 580,
+        "wires": [
+            [
+                "89deff17274d61fb"
+            ]
+        ]
+    },
+    {
+        "id": "7edcdcc612832ea7",
+        "type": "template",
+        "z": "23ccb6b6d98c0183",
+        "name": "Time",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "Time: {{payload.hour}} {{payload.minutes}} {{payload.seconds}}\n",
+        "output": "str",
+        "x": 450,
+        "y": 140,
+        "wires": [
+            [
+                "c4f66a19e420286b"
+            ]
+        ]
+    },
+    {
+        "id": "58a5257b844763c4",
+        "type": "template",
+        "z": "23ccb6b6d98c0183",
+        "name": "Mode",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload.mode}}\n",
+        "output": "str",
+        "x": 450,
+        "y": 220,
+        "wires": [
+            [
+                "a71f5ba17409a87e"
+            ]
+        ]
+    },
+    {
+        "id": "a71f5ba17409a87e",
+        "type": "switch",
+        "z": "23ccb6b6d98c0183",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "2",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "3",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 590,
+        "y": 220,
+        "wires": [
+            [
+                "c47345b29896893e"
+            ],
+            [
+                "639aed6e520ae083"
+            ],
+            [
+                "8597ae0ca016df41"
+            ]
+        ]
+    },
+    {
+        "id": "c47345b29896893e",
+        "type": "change",
+        "z": "23ccb6b6d98c0183",
+        "name": "Passive",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Passive",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 740,
+        "y": 180,
+        "wires": [
+            [
+                "83b42c54a053c283"
+            ]
+        ]
+    },
+    {
+        "id": "639aed6e520ae083",
+        "type": "change",
+        "z": "23ccb6b6d98c0183",
+        "name": "Active DC",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Active DC",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 740,
+        "y": 220,
+        "wires": [
+            [
+                "83b42c54a053c283"
+            ]
+        ]
+    },
+    {
+        "id": "8597ae0ca016df41",
+        "type": "change",
+        "z": "23ccb6b6d98c0183",
+        "name": "Active AC",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Active AC",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 740,
+        "y": 260,
+        "wires": [
+            [
+                "83b42c54a053c283"
+            ]
+        ]
+    },
+    {
+        "id": "83b42c54a053c283",
+        "type": "ui_text",
+        "z": "23ccb6b6d98c0183",
+        "group": "dc06f5f67633d73c",
+        "order": 1,
+        "width": 4,
+        "height": 1,
+        "name": "",
+        "label": "Operating Mode",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "x": 920,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "6ca3945457b6fe67",
+        "type": "ui_text",
+        "z": "23ccb6b6d98c0183",
+        "group": "2f3ab8d5b56d139e",
+        "order": 1,
+        "width": 4,
+        "height": 1,
+        "name": "",
+        "label": "Date:",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "x": 610,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "c4f66a19e420286b",
+        "type": "ui_text",
+        "z": "23ccb6b6d98c0183",
+        "group": "2f3ab8d5b56d139e",
+        "order": 2,
+        "width": 4,
+        "height": 1,
+        "name": "",
+        "label": "Time:",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "x": 610,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "52e210406bb5b90c",
+        "type": "template",
+        "z": "23ccb6b6d98c0183",
+        "name": "Solution",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload.solution}}\n",
+        "output": "str",
+        "x": 460,
+        "y": 400,
+        "wires": [
+            [
+                "416854663a811aa3"
+            ]
+        ]
+    },
+    {
+        "id": "416854663a811aa3",
+        "type": "switch",
+        "z": "23ccb6b6d98c0183",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "2",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "3",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 4,
+        "x": 590,
+        "y": 400,
+        "wires": [
+            [
+                "c47b17d7dfb9f37e"
+            ],
+            [
+                "1bf2d1ecbd0ad002"
+            ],
+            [
+                "136e6b3c0b88119e"
+            ],
+            [
+                "941275c40fa56554"
+            ]
+        ]
+    },
+    {
+        "id": "c47b17d7dfb9f37e",
+        "type": "change",
+        "z": "23ccb6b6d98c0183",
+        "name": "(Solution 0) No Signal",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "No Signal",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 780,
+        "y": 340,
+        "wires": [
+            [
+                "7e79591cbe275f93"
+            ]
+        ]
+    },
+    {
+        "id": "1bf2d1ecbd0ad002",
+        "type": "change",
+        "z": "23ccb6b6d98c0183",
+        "name": "(Solution 1) Direction Only",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Direction Only",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 790,
+        "y": 380,
+        "wires": [
+            [
+                "7e79591cbe275f93"
+            ]
+        ]
+    },
+    {
+        "id": "136e6b3c0b88119e",
+        "type": "change",
+        "z": "23ccb6b6d98c0183",
+        "name": "(Solution 2) Horizontal Displacement Only",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Horizontal Displacement Only",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 840,
+        "y": 420,
+        "wires": [
+            [
+                "7e79591cbe275f93"
+            ]
+        ]
+    },
+    {
+        "id": "941275c40fa56554",
+        "type": "change",
+        "z": "23ccb6b6d98c0183",
+        "name": "(Solution 3) Horizontal & Vertical Displacement ",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Horizontal & Vertical Displacement",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 860,
+        "y": 460,
+        "wires": [
+            [
+                "7e79591cbe275f93"
+            ]
+        ]
+    },
+    {
+        "id": "7e79591cbe275f93",
+        "type": "ui_text",
+        "z": "23ccb6b6d98c0183",
+        "group": "58cfb8d9ba1f8b17",
+        "order": 1,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Solution",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "x": 1020,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "6baad98c4ea126d7",
+        "type": "ui_text",
+        "z": "23ccb6b6d98c0183",
+        "group": "58cfb8d9ba1f8b17",
+        "order": 2,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Source Type",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "x": 950,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "89deff17274d61fb",
+        "type": "switch",
+        "z": "23ccb6b6d98c0183",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 610,
+        "y": 580,
+        "wires": [
+            [
+                "05e024a6927f94e7"
+            ],
+            [
+                "7f2306b5015c568d"
+            ]
+        ]
+    },
+    {
+        "id": "05e024a6927f94e7",
+        "type": "change",
+        "z": "23ccb6b6d98c0183",
+        "name": "Single",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Single",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 750,
+        "y": 560,
+        "wires": [
+            [
+                "6baad98c4ea126d7"
+            ]
+        ]
+    },
+    {
+        "id": "7f2306b5015c568d",
+        "type": "change",
+        "z": "23ccb6b6d98c0183",
+        "name": "Complex",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Complex",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 760,
+        "y": 600,
+        "wires": [
+            [
+                "6baad98c4ea126d7"
+            ]
+        ]
+    },
+    {
+        "id": "594a1b39b40a8621",
+        "type": "template",
+        "z": "23ccb6b6d98c0183",
+        "name": "Signal Strength & Polarity",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload.signalstrength}} \n",
+        "output": "str",
+        "x": 510,
+        "y": 660,
+        "wires": [
+            [
+                "54580669055b5dfb"
+            ]
+        ]
+    },
+    {
+        "id": "4be5bdcf4bd00e93",
+        "type": "template",
+        "z": "23ccb6b6d98c0183",
+        "name": "Magnetization or Current",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload.magnetization}} \n",
+        "output": "str",
+        "x": 510,
+        "y": 700,
+        "wires": [
+            [
+                "04d4210718d9ef6d"
+            ]
+        ]
+    },
+    {
+        "id": "54580669055b5dfb",
+        "type": "ui_text",
+        "z": "23ccb6b6d98c0183",
+        "group": "d70dc85aa96f3b73",
+        "order": 1,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Signal Strength & Polarity",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "x": 850,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "04d4210718d9ef6d",
+        "type": "ui_text",
+        "z": "23ccb6b6d98c0183",
+        "group": "d70dc85aa96f3b73",
+        "order": 2,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Magnetization (nT) or Current (mA)",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "x": 880,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "5c5373c5064c6039",
+        "type": "template",
+        "z": "23ccb6b6d98c0183",
+        "name": "Pitch",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload.pitch}} \n",
+        "output": "str",
+        "x": 430,
+        "y": 860,
+        "wires": [
+            [
+                "93287493f87b1cb0"
+            ]
+        ]
+    },
+    {
+        "id": "18755496d82626b7",
+        "type": "template",
+        "z": "23ccb6b6d98c0183",
+        "name": "Roll",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload.roll}} \n",
+        "output": "str",
+        "x": 430,
+        "y": 900,
+        "wires": [
+            [
+                "50b6b1901fd5b083"
+            ]
+        ]
+    },
+    {
+        "id": "5ee96f4dc9c7b770",
+        "type": "template",
+        "z": "23ccb6b6d98c0183",
+        "name": "Relative Heading",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload.relativeheading}} \n",
+        "output": "str",
+        "x": 470,
+        "y": 940,
+        "wires": [
+            [
+                "c829f6e556951198"
+            ]
+        ]
+    },
+    {
+        "id": "bc138537f0a8b09f",
+        "type": "template",
+        "z": "23ccb6b6d98c0183",
+        "name": "Heading / Gyro",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload.absoluteheading}} \n",
+        "output": "str",
+        "x": 460,
+        "y": 980,
+        "wires": [
+            [
+                "e5a9829f7cc8c39c",
+                "b4b039060e7a941a"
+            ]
+        ]
+    },
+    {
+        "id": "e5a9829f7cc8c39c",
+        "type": "ui_text",
+        "z": "23ccb6b6d98c0183",
+        "group": "72ac9c0a4091bf95",
+        "order": 1,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "ROV heading",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "x": 720,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "c829f6e556951198",
+        "type": "ui_text",
+        "z": "23ccb6b6d98c0183",
+        "group": "72ac9c0a4091bf95",
+        "order": 2,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Degrees from \"As Built\" heading",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "x": 770,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "50b6b1901fd5b083",
+        "type": "ui_text",
+        "z": "23ccb6b6d98c0183",
+        "group": "72ac9c0a4091bf95",
+        "order": 4,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Roll",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "x": 690,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "93287493f87b1cb0",
+        "type": "ui_text",
+        "z": "23ccb6b6d98c0183",
+        "group": "72ac9c0a4091bf95",
+        "order": 3,
+        "width": 6,
+        "height": 1,
+        "name": "",
+        "label": "Pitch",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "className": "",
+        "x": 690,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "b4b039060e7a941a",
+        "type": "ui_gauge",
+        "z": "23ccb6b6d98c0183",
+        "name": "",
+        "group": "47d9bfc2db6d44a2",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "compass",
+        "title": "ROV",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "360",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 690,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "6b0603793588c2f6",
+        "type": "serial-port",
+        "serialport": "COM12",
+        "serialbaud": "19200",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "dc06f5f67633d73c",
+        "type": "ui_group",
+        "name": "Mode",
+        "tab": "041f9c023198e42c",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "2f3ab8d5b56d139e",
+        "type": "ui_group",
+        "name": "Date/Time",
+        "tab": "041f9c023198e42c",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "58cfb8d9ba1f8b17",
+        "type": "ui_group",
+        "name": "Solution & Source Type",
+        "tab": "041f9c023198e42c",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "d70dc85aa96f3b73",
+        "type": "ui_group",
+        "name": "Signal Strengths",
+        "tab": "041f9c023198e42c",
+        "order": 5,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "72ac9c0a4091bf95",
+        "type": "ui_group",
+        "name": "ROV Data",
+        "tab": "041f9c023198e42c",
+        "order": 6,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "47d9bfc2db6d44a2",
+        "type": "ui_group",
+        "name": "Guages",
+        "tab": "041f9c023198e42c",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "041f9c023198e42c",
+        "type": "ui_tab",
+        "name": "SmarTrak 80 Char Original ",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]

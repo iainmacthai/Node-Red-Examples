@@ -1,0 +1,326 @@
+[
+    {
+        "id": "164d3940808b5943",
+        "type": "udp in",
+        "z": "da4d7a605e0bd79b",
+        "name": "",
+        "iface": "",
+        "port": "27030",
+        "ipv": "udp4",
+        "multicast": "false",
+        "group": "",
+        "datatype": "utf8",
+        "x": 160,
+        "y": 380,
+        "wires": [
+            [
+                "a95291ddeff9fd5b"
+            ]
+        ]
+    },
+    {
+        "id": "a95291ddeff9fd5b",
+        "type": "debug",
+        "z": "da4d7a605e0bd79b",
+        "name": "V-Gyro",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 320,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "9eecfb6e895382a1",
+        "type": "udp in",
+        "z": "da4d7a605e0bd79b",
+        "name": "",
+        "iface": "",
+        "port": "27012",
+        "ipv": "udp4",
+        "multicast": "false",
+        "group": "",
+        "datatype": "utf8",
+        "x": 160,
+        "y": 260,
+        "wires": [
+            [
+                "1d3b66ea4c32b149"
+            ]
+        ]
+    },
+    {
+        "id": "1d3b66ea4c32b149",
+        "type": "debug",
+        "z": "da4d7a605e0bd79b",
+        "name": "ROV P+R",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 320,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "e45cdf41ad09c237",
+        "type": "udp in",
+        "z": "da4d7a605e0bd79b",
+        "name": "",
+        "iface": "",
+        "port": "27014",
+        "ipv": "udp4",
+        "multicast": "false",
+        "group": "",
+        "datatype": "utf8",
+        "x": 160,
+        "y": 300,
+        "wires": [
+            [
+                "762d0a0784ab0712"
+            ]
+        ]
+    },
+    {
+        "id": "762d0a0784ab0712",
+        "type": "debug",
+        "z": "da4d7a605e0bd79b",
+        "name": "ROV Yaw",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 320,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "edcacca53d423063",
+        "type": "udp in",
+        "z": "da4d7a605e0bd79b",
+        "name": "",
+        "iface": "",
+        "port": "27015",
+        "ipv": "udp4",
+        "multicast": "false",
+        "group": "",
+        "datatype": "utf8",
+        "x": 320,
+        "y": 340,
+        "wires": [
+            [
+                "45b18556ef2adfed"
+            ]
+        ]
+    },
+    {
+        "id": "0b11e74022af2cc7",
+        "type": "serial out",
+        "z": "da4d7a605e0bd79b",
+        "name": "",
+        "serial": "",
+        "x": 610,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "45b18556ef2adfed",
+        "type": "delay",
+        "z": "da4d7a605e0bd79b",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "2",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 470,
+        "y": 340,
+        "wires": [
+            [
+                "470d9b18e8620384",
+                "0b11e74022af2cc7"
+            ]
+        ]
+    },
+    {
+        "id": "470d9b18e8620384",
+        "type": "debug",
+        "z": "da4d7a605e0bd79b",
+        "name": "ROV Gyro",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "807f531b157ce849",
+        "type": "udp in",
+        "z": "da4d7a605e0bd79b",
+        "name": "",
+        "iface": "",
+        "port": "27011",
+        "ipv": "udp4",
+        "multicast": "false",
+        "group": "",
+        "datatype": "utf8",
+        "x": 160,
+        "y": 220,
+        "wires": [
+            [
+                "d1278e8b6f87b9ac"
+            ]
+        ]
+    },
+    {
+        "id": "6ad185c54229083b",
+        "type": "udp in",
+        "z": "da4d7a605e0bd79b",
+        "name": "",
+        "iface": "",
+        "port": "27002",
+        "ipv": "udp4",
+        "multicast": "false",
+        "group": "",
+        "datatype": "utf8",
+        "x": 160,
+        "y": 100,
+        "wires": [
+            [
+                "1805a13b36e502f9"
+            ]
+        ]
+    },
+    {
+        "id": "5dee41381240a9f2",
+        "type": "udp in",
+        "z": "da4d7a605e0bd79b",
+        "name": "",
+        "iface": "",
+        "port": "27003",
+        "ipv": "udp4",
+        "multicast": "false",
+        "group": "",
+        "datatype": "utf8",
+        "x": 160,
+        "y": 140,
+        "wires": [
+            [
+                "4a856c2bc7889b22"
+            ]
+        ]
+    },
+    {
+        "id": "904044e08b90dc3b",
+        "type": "udp in",
+        "z": "da4d7a605e0bd79b",
+        "name": "",
+        "iface": "",
+        "port": "27010",
+        "ipv": "udp4",
+        "multicast": "false",
+        "group": "",
+        "datatype": "utf8",
+        "x": 320,
+        "y": 180,
+        "wires": [
+            [
+                "29ceeec380b073bd"
+            ]
+        ]
+    },
+    {
+        "id": "d1278e8b6f87b9ac",
+        "type": "debug",
+        "z": "da4d7a605e0bd79b",
+        "name": "ROV Depth",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 330,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "1805a13b36e502f9",
+        "type": "debug",
+        "z": "da4d7a605e0bd79b",
+        "name": "ROV Position",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 340,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "4a856c2bc7889b22",
+        "type": "debug",
+        "z": "da4d7a605e0bd79b",
+        "name": "Vessel GPS",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 330,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "29ceeec380b073bd",
+        "type": "debug",
+        "z": "da4d7a605e0bd79b",
+        "name": "Vessel Gyro (Pi2)",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 510,
+        "y": 180,
+        "wires": []
+    }
+]
